@@ -1,2 +1,0 @@
-# augmented
-Augmented Reality
