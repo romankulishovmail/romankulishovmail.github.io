@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Example Scene</title>
+  <script src="../node_modules/aframe/dist/aframe-master.js"></script>
+  <script src="../node_modules/aframe-environment-component/dist/aframe-environment-component.js"></script>
+  <script src="../node_modules/aframe-particle-system-component/dist/aframe-particle-system-component.js"></script>
+
+  <!--script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.5.5/aframe/build/aframe-ar.js"></script-->
+
+
+</head>
+<body style='margin : 0px; overflow: hidden;'>
+
+
+
+<a-scene debug="true"> <!--embedded arjs='sourceType: webcam;'-->
+  <a-assets>
+    <a-mixin id="blue" material="color: #4CC3D9"></a-mixin>
+    <a-mixin id="blueBox" geometry="primitive: box; depth: 2; height: 5; width: 1" material="color: #4CC3D9"></a-mixin>
+    <a-mixin id="box" geometry="primitive: box; depth: 1; height: 1; width: 1"></a-mixin>
+    <a-mixin id="cylinder" geometry="primitive: cylinder; height: 0.3; radius: 0.75; segmentsRadial: 6"></a-mixin>
+    <a-mixin id="green" material="color: #7BC8A4"></a-mixin>
+    <a-mixin id="orange" material="color: #F16745"></a-mixin>
+    <a-mixin id="purple" material="color: #93648D"></a-mixin>
+    <a-mixin id="short" scale="1 0.5 1"></a-mixin>
+    <a-mixin id="yellow" material="color: #FFC65D"></a-mixin>
+    <img id="crateImg" src="https://aframe.io/sample-assets/assets/images/wood/crate.gif" crossOrigin="true">
+    <img id="checkerboard" src="../assets/checkerboard.png" crossOrigin="true">
+    <img id="symbol1" src="../assets/10.png.png" crossOrigin="true">
+    <img id="symbol2" src="../assets/a.png.png" crossOrigin="true">
+    <img id="symbol3" src="../assets/j.png.png" crossOrigin="true">
+    <img id="symbol4" src="../assets/k.png.png" crossOrigin="true">
+    <img id="symbol5" src="../assets/q.png.png" crossOrigin="true">
+
+  </a-assets>
+
+  <a-entity id="environment" position="0 -1.50 0" environment="preset: arches; fog: false"></a-entity>
+  <a-entity position="0 0 0" particle-system="color: #EF0000,#44CC00"></a-entity>
+
+  <a-entity rotation="0 0 90" scale="2 2 2" >
+  <a-box id="reel1" opacity="0.0" color="blue" width="1" height="1" depth="1" position="0 -2 0" pivot="0 0 0">
+    <a-animation attribute="rotation" to="0 -360 0" repeat="indefinite" easing="linear" dur="1600"></a-animation>
+  </a-box>
+  <a-box id="reel2" scale="1.5 1 1.5 " opacity="0.0" color="blue" width="1" height="1" depth="1" position="0 -1 0" pivot="0 0 0">
+    <a-animation attribute="rotation" to="0 -360 0" repeat="indefinite" easing="linear" dur="2600"></a-animation>
+  </a-box>
+  <a-box id="reel3" scale="2 1 2 " opacity="0.0" color="blue" width="1" height="1" depth="1" position="0 0 0" pivot="0 0 0">
+    <a-animation attribute="rotation" to="0 -360 0" repeat="indefinite" easing="linear" dur="3600"></a-animation>
+  </a-box>
+  <a-box id="reel4" scale="1.5 1 1.5 " opacity="0.0" color="blue" width="1" height="1" depth="1" position="0 1 0" pivot="0 0 0">
+    <a-animation attribute="rotation" to="0 -360 0" repeat="indefinite" easing="linear" dur="2600"></a-animation>
+  </a-box>
+  <a-box id="reel5" opacity="0.0" color="blue" width="1" height="1" depth="1" position="0 2 0" pivot="0 0 0">
+    <a-animation attribute="rotation" to="0 -360 0" repeat="indefinite" easing="linear" dur="1600"></a-animation>
+  </a-box>
+  </a-entity>
+  <!-- a-marker-camera preset='hiro'></a-marker-camera -->
+
+</a-scene>
+
+<script src="../dist/aframe-inspector.js"></script>
+
+<script>
+  for (let k = 1; k < 6; k+=1) {
+    var cylinder;
+    var box = document.getElementById('reel'+k);
+    let symbolsCount = 8;
+    let theta = 360 / symbolsCount;
+    for (let i = 0; i < symbolsCount; i += 1) {
+      cylinder = document.createElement('a-cylinder');
+      cylinder.setAttribute('radius', 0.5);
+      cylinder.setAttribute('height', 1);
+     // cylinder.setAttribute("open-ended", "true");
+
+      //cylinder.setAttribute("background", "color: #4CC3D9");
+      cylinder.setAttribute("side", "double");
+      cylinder.setAttribute("src", "#symbol"+(Math.floor(Math.random() * 5    ) + 1 ) );
+      cylinder.setAttribute("theta-length", theta);
+      cylinder.setAttribute('position', {x: 0, y: 0, z: 0});
+      cylinder.setAttribute('rotation', {x: 0, y: theta + theta * i, z: 0});
+
+      box.appendChild(cylinder);
+
+      cylinder.setAttribute('scale', box.getAttribute("scale"));
+    }
+  }
+</script>
+</body>
+</html>
