@@ -6,6 +6,7 @@
   <script src="./js/aframe-master.js"></script>
   <script src="./js/aframe-environment-component.js"></script>
   <script src="./js/aframe-particle-system-component.js"></script>
+  <script src="./js/aframe-mirror-component.js"></script>
 
   <!--script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.5.5/aframe/build/aframe-ar.js"></script-->
 
@@ -15,7 +16,7 @@
 
 
 
-<a-scene debug="true"> <!--embedded arjs='sourceType: webcam;'-->
+<a-scene debug="true" > <!--embedded arjs='sourceType: webcam;'-->
   <a-assets>
     <a-mixin id="blue" material="color: #4CC3D9"></a-mixin>
     <a-mixin id="blueBox" geometry="primitive: box; depth: 2; height: 5; width: 1" material="color: #4CC3D9"></a-mixin>
@@ -33,11 +34,34 @@
     <img id="symbol3" src="../assets/j.png.png" crossOrigin="true">
     <img id="symbol4" src="../assets/k.png.png" crossOrigin="true">
     <img id="symbol5" src="../assets/q.png.png" crossOrigin="true">
-
+    <a-mixin id="light"
+             geometry="primitive: sphere; radius: .2"
+             material="color: #FFF; shader: flat"
+             light="color: #DDDDFF; distance: 20; intensity: 2; type: point"></a-mixin>
   </a-assets>
 
-  <a-entity id="environment" position="0 -1.50 0" environment="preset: arches; fog: false"></a-entity>
-  <a-entity position="0 0 0" particle-system="color: #EF0000,#44CC00"></a-entity>
+  <a-entity id="environment" position="0 -1.50 0" environment="preset: arches; fog: 0"></a-entity>
+
+  <a-camera id="camera" position="0 1.6 7.2"> <!-- fov="2.2" near="1000" far="4000" wasd-controls-enabled="false" look-controls-enabled="false"--></a-camera>
+
+
+    <a-entity mixin="light" pivot="0 0 10" position="0 0 -5">
+      <a-animation attribute="rotation" to="0 -360 0" repeat="indefinite" easing="linear" dur="3600">  </a-animation>
+    </a-entity>
+
+  <!--TEXT-->
+  <a-entity position="-10 3 0"
+            text="anchor: left; width: 16.3; height: 10; color: white; value: Test VR slot">
+  </a-entity>
+
+  <a-entity position="-10 1 0"
+            text="anchor: left; width: 6.3; height: 10; color: white; value: by Coolok">
+  </a-entity>
+
+
+  <a-sphere position="0 4 0" mirror="resolution: 256; distance: 1000; interval: 200; repeat: true" segments-radius="24" segments-height="24" radius="1.5" position="0 2.5 4" ></a-sphere>
+
+  <a-entity position="0 0 -15" rotation="6.3 0 0" particle-system="color: #EF0000,#44CC00"></a-entity>
 
   <a-entity rotation="0 0 90" scale="2 2 2" >
   <a-box id="reel1" opacity="0.0" color="blue" width="1" height="1" depth="1" position="0 -2 0" pivot="0 0 0">
@@ -63,20 +87,34 @@
 <script src="../dist/aframe-inspector.js"></script>
 
 <script>
+
+
   for (let k = 1; k < 6; k+=1) {
     var cylinder;
     var box = document.getElementById('reel'+k);
     let symbolsCount = 8;
     let theta = 360 / symbolsCount;
+
+    cylinder = document.createElement('a-cylinder');
+    cylinder.setAttribute('radius', 0.45);
+    cylinder.setAttribute('height', 1.05);
+    cylinder.setAttribute('material', {
+      color: "#000000",
+      metalness: Math.random(),
+      roughness: Math.random()
+    })
+    box.appendChild(cylinder);
+
     for (let i = 0; i < symbolsCount; i += 1) {
       cylinder = document.createElement('a-cylinder');
       cylinder.setAttribute('radius', 0.5);
       cylinder.setAttribute('height', 1);
      // cylinder.setAttribute("open-ended", "true");
-
+      cylinder.setAttribute("transparent", "true");
       //cylinder.setAttribute("background", "color: #4CC3D9");
       cylinder.setAttribute("side", "double");
       cylinder.setAttribute("src", "#symbol"+(Math.floor(Math.random() * 5    ) + 1 ) );
+      //cylinder.setAttribute("material", "color: blue; shader: flat; src: #symbol"+(Math.floor(Math.random() * 5    ) + 1 ) );
       cylinder.setAttribute("theta-length", theta);
       cylinder.setAttribute('position', {x: 0, y: 0, z: 0});
       cylinder.setAttribute('rotation', {x: 0, y: theta + theta * i, z: 0});

@@ -22,7 +22,9 @@
   "license": "MIT",
   "dependencies": {
     "aframe": "^0.8.2",
+    "aframe-animation-component": "^5.1.0",
     "aframe-environment-component": "^1.1.0",
+    "aframe-mirror-component": "^1.0.2",
     "aframe-particle-system-component": "^1.0.11",
     "classnames": "^2.2.5",
     "clipboard": "^1.5.12",
